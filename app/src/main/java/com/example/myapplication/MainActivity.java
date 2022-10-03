@@ -1,17 +1,23 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ToggleButton;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -21,16 +27,35 @@ import com.google.android.material.tabs.TabLayout;
  * @version
  */
 
-public class MainActivity extends AppCompatActivity {
-    TabLayout tabLayout;
-    ToggleButton kaynnistaButton;
-    Intent intentMain;
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    private TabLayout tabLayout;
+    private Intent intentMain;
+    private TextView textViewSteps;
+    private Integer askeleita = 0;
+    private SensorManager sensoriManageri;
+    private Sensor askelMittari;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /**
+         * Kysyy käyttäjältä luvan käyttää pedometeriä
+         * */
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+            }
+        }
+        textViewSteps = findViewById(R.id.textViewSteps);
         tabLayout = findViewById(R.id.tabit);
+        sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
+        askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+
         /**
          * Luo kuuntelijan tabin painamista varten
          */
@@ -62,11 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        kaynnistaButton = findViewById(R.id.kaynnistaButton);
+        sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     /**
-     * luo settings napin headeriin
+     * luo settings napin headeriin.
       */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
@@ -88,14 +113,30 @@ public class MainActivity extends AppCompatActivity {
     private void update() {
 
     }
-    public void buttonPressed(View view) {
-    switch  (view.getId()) {
-        case R.id.kaynnistaButton:
+    /**
+     * Tarkkailee jos nappia clickataan ja tekee halutut jutut.
+     */
+    public void onClick(View view) {
+        if (view.getId() == R.id.startStopButton) {
+            askeleita = 0;
+            textViewSteps.setText(askeleita.toString());
+
+        }
+
 
     }
 
-
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            Log.d("TEST", "ASKEL");
+            askeleita++;
+            textViewSteps.setText(askeleita.toString());
+        }
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="onClick"
     tools:context=".MainActivity"
     tools:menu="@menu/options_menu">
 
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:text="TextView"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="@+id/textViewSteps"
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
@@ -31,20 +33,12 @@
         android:id="@+id/textViewSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="44dp"
         android:text="TextView"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="@+id/textViewTimer"
         app:layout_constraintTop_toBottomOf="@+id/textViewTimer" />
-
-    <ToggleButton
-        android:id="@+id/kaynnistaButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="124dp"
-        android:text="ToggleButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabit"
@@ -77,10 +71,11 @@
         android:id="@+id/startStopButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
-        android:layout_marginBottom="71dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="94dp"
+        android:onClick="onClick"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/kaynnistaButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
