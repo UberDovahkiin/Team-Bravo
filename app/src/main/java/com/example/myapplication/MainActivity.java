@@ -31,8 +31,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.tabit);
+        /**
+         * Luo kuuntelijan tabin painamista varten
+         */
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
+            /**
+             * Toiminta joka tapahtuu tabia painaessa
+             */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     intentMain = new Intent(MainActivity.this, MainActivity.class);
@@ -58,12 +64,18 @@ public class MainActivity extends AppCompatActivity {
         });
         kaynnistaButton = findViewById(R.id.kaynnistaButton);
     }
-    // luo settings napin headeriin
+
+    /**
+     * luo settings napin headeriin
+      */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
-    // vie settings view
+
+    /**
+     * vie settings view
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:

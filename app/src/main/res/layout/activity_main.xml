@@ -77,8 +77,10 @@
         android:id="@+id/startStopButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="69dp"
+        android:layout_marginBottom="71dp"
         android:text="Button"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="440dp" />
+        app:layout_constraintBottom_toTopOf="@+id/kaynnistaButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

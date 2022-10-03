@@ -16,7 +16,14 @@ public class SuoritusView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suoritus_view);
         tabLayout = findViewById(R.id.tabit);
+        /**
+         * Luo kuuntelijan tabin painamista varten
+         */
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            /**
+             * Toiminta joka tapahtuu tabia painaessa
+             */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     intentMain = new Intent(SuoritusView.this, MainActivity.class);

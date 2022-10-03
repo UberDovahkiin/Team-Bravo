@@ -21,8 +21,14 @@ public class HistoriaView extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabit);
         TabLayout.Tab tab = tabLayout.getTabAt(1);
         tab.select();
+        /**
+         * Luo kuuntelijan tabin painamista varten
+         */
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
+            /**
+             * Toiminta joka tapahtuu tabia painaessa
+             */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     intentMain = new Intent(HistoriaView.this, MainActivity.class);
