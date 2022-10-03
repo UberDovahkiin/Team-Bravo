@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".SuoritusView">
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suoritus" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Historia"
+            tools:layout_editor_absoluteX="150dp"
+            tools:layout_editor_absoluteY="9dp" />
+
+    </com.google.android.material.tabs.TabLayout>
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -34,25 +61,4 @@
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="3dp">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tuesday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wednesday" />
-    </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

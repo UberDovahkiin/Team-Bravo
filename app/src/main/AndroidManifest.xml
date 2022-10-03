@@ -17,21 +17,21 @@
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SuoritusView"
             android:exported="false">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".HistoriaView"
             android:exported="false">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".MainActivity"

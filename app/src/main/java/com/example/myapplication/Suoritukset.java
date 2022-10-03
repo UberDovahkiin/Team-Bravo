@@ -1,8 +1,5 @@
 package com.example.myapplication;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-
 import java.util.ArrayList;
 
 public class Suoritukset extends MainActivity{

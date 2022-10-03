@@ -15,7 +15,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tabit" />
 
     <TextView
         android:id="@+id/textView3"
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/tabit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -57,22 +57,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Suoritus" />
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tuesday"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="79dp" />
-
-        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Historia"
-            tools:layout_editor_absoluteX="273dp" />
+            tools:layout_editor_absoluteX="150dp"
+            tools:layout_editor_absoluteY="9dp" />
+
     </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
