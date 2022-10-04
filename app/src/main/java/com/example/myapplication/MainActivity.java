@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     MainActivity.this.startActivity(intentMain);
                 }
                 }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
-        sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_NORMAL);
+        sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     /**
