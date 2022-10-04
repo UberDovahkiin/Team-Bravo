@@ -37,13 +37,13 @@ public class AsetuksetView extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        // on Click method
         Button button = (Button) findViewById(R.id.button_Save_Settings);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences prefPut = getSharedPreferences("com.example.myapplication", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor prefEditor = prefPut.edit();
-
                 prefEditor.commit();
             }
         });
