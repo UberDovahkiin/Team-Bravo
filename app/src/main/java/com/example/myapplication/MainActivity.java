@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (view.getId() == R.id.buttonReset) {
             askeleita = 0;
             textViewSteps.setText(askeleita.toString());
+            startTime = SystemClock.uptimeMillis();
+            customHandler.postDelayed(updateTimerThread, 0);
 
         }
         if(view.getId() == R.id.buttonStart) {
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         if(view.getId() == R.id.buttonStop) {
             customHandler.removeCallbacks(updateTimerThread);
+            sensoriManageri.unregisterListener(this, askelMittari);
         }
     }
 
