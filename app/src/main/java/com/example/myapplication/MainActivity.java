@@ -80,8 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (tab.getPosition() == 0) {
                     intentMain = new Intent(MainActivity.this, MainActivity.class);
 
-                }
-                if (tab.getPosition() == 1) {
+                }else if (tab.getPosition() == 1) {
                     intentMain = new Intent(MainActivity.this,
                             HistoriaView.class);
                     Log.e("TEST", "Painettiin toista");
@@ -130,13 +129,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
 
-        }
-        if(view.getId() == R.id.buttonStart) {
+        }else if(view.getId() == R.id.buttonStart) {
             sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
-        }
-        if(view.getId() == R.id.buttonStop) {
+        }else if(view.getId() == R.id.buttonStop) {
             customHandler.removeCallbacks(updateTimerThread);
             sensoriManageri.unregisterListener(this, askelMittari);
         }
