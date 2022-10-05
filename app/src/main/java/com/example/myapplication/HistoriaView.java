@@ -1,10 +1,16 @@
 package com.example.myapplication;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,11 +19,14 @@ import com.google.android.material.tabs.TabLayout;
 public class HistoriaView extends AppCompatActivity {
     Intent intentMain;
     TabLayout tabLayout;
+    ListView lv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historia_view);
+
         tabLayout = findViewById(R.id.tabit);
         TabLayout.Tab tab = tabLayout.getTabAt(1);
         tab.select();
@@ -52,17 +61,37 @@ public class HistoriaView extends AppCompatActivity {
 
             }
         });
+
+        lv = findViewById(R.id.lvHistoria);
+        lv.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                Suoritukset.getInstance().getSuoritukset()));
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "onItemClick(" + i + ")");
+                Intent nextActivity = new Intent(HistoriaView.this, HistoriaView.class);
+                nextActivity.putExtra("Item_onClick", i);
+                startActivity(nextActivity);
+
+            }
+        });
+
     }
+
     // luo settings napin headeriin
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
+
     // vie settings view
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                intentMain = new Intent(HistoriaView.this ,
+                intentMain = new Intent(HistoriaView.this,
                         AsetuksetView.class);
                 HistoriaView.this.startActivity(intentMain);
         }
