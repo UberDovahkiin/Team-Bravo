@@ -22,15 +22,6 @@ public class Counter {
         return df.format(d);
     }
 
-    public void start(View v) {
-        startTime = SystemClock.uptimeMillis();
-        customHandler.postDelayed(updateTimerThread, 0);
-    }
-
-    public void stop(View v) {
-        customHandler.removeCallbacks(updateTimerThread);
-    }
-
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;

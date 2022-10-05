@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Integer askeleita = 0;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
-    private Boolean isStepDetectorSensorPresent = false;
 
     TextView textViewTimer;
     long startTime, timeInMilliseconds = 0;
@@ -120,19 +119,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return false;
     }
-    private void update() {
-
-    }
     /**
      * Tarkkailee jos nappia clickataan ja tekee halutut jutut.
      */
     public void onClick(View view) {
-        if (view.getId() == R.id.startStopButton) {
+        if (view.getId() == R.id.buttonReset) {
             askeleita = 0;
             textViewSteps.setText(askeleita.toString());
+
         }
-
-
+        if(view.getId() == R.id.buttonStart) {
+            startTime = SystemClock.uptimeMillis();
+            customHandler.postDelayed(updateTimerThread, 0);
+        }
+        if(view.getId() == R.id.buttonStop) {
+            customHandler.removeCallbacks(updateTimerThread);
+        }
     }
 
     @Override
@@ -148,16 +150,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-    public void start(View v) {
-        startTime = SystemClock.uptimeMillis();
-        customHandler.postDelayed(updateTimerThread, 0);
-    }
-
-    public void stop(View v) {
-        customHandler.removeCallbacks(updateTimerThread);
-    }
-
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;

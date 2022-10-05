@@ -27,7 +27,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:onClick="start"
+        android:onClick="onClick"
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonStop"
@@ -43,7 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:onClick="stop"
+        android:onClick="onClick"
         android:text="Stop"
         app:layout_constraintBaseline_toBaselineOf="@+id/buttonStart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,13 +62,15 @@
 
     <TextView
         android:id="@+id/textViewSteps"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="44dp"
+        android:layout_marginEnd="18dp"
         android:text="TextView"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/textViewTimer"
+        app:layout_constraintEnd_toStartOf="@+id/buttonStop"
+        app:layout_constraintStart_toStartOf="@+id/buttonReset"
         app:layout_constraintTop_toBottomOf="@+id/textViewTimer" />
 
     <com.google.android.material.tabs.TabLayout
@@ -101,13 +103,13 @@
     </com.google.android.material.tabs.TabLayout>
 
     <Button
-        android:id="@+id/startStopButton"
+        android:id="@+id/buttonReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
         android:layout_marginBottom="94dp"
         android:onClick="onClick"
-        android:text="Button"
+        android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
