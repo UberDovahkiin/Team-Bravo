@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Integer askeleita = 0;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
+    private Boolean isStepDetectorSensorPresent = false;
 
     TextView textViewTimer;
     long startTime, timeInMilliseconds = 0;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
         sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
+        Log.d("TEST", "SENSORI AKTIVOITU");
     }
 
     /**
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (view.getId() == R.id.startStopButton) {
             askeleita = 0;
             textViewSteps.setText(askeleita.toString());
-
         }
 
 

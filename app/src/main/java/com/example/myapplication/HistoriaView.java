@@ -81,7 +81,9 @@ public class HistoriaView extends AppCompatActivity {
 
     }
 
-    // luo settings napin headeriin
+    /**
+     * luo settings napin headeriin
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
