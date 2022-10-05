@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.Counter.getDateFromMillis;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +11,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
 
+    TextView textViewTimer;
+    long startTime, timeInMilliseconds = 0;
+    Handler customHandler = new Handler();
+
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -54,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tabLayout = findViewById(R.id.tabit);
         sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        textViewTimer = (TextView) findViewById(R.id.textViewTimer);
 
 
         /**
@@ -138,4 +147,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
+    public void start(View v) {
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+    }
+
+    public void stop(View v) {
+        customHandler.removeCallbacks(updateTimerThread);
+    }
+
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            textViewTimer.setText(getDateFromMillis(timeInMilliseconds));
+            customHandler.postDelayed(this, 1000);
+        }
+    };
 }

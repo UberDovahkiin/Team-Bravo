@@ -1,34 +1,41 @@
 package com.example.myapplication;
 
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.TimeZone;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Counter {
-    private int min;
-    private int start;
-    private int step;
-    private int current;
 
-    public Counter() {
-        this.min = 0;
-        this.start = 0;
-        this.step = 1;
-        this.current = this.start;
+    TextView textViewTimer;
+    long startTime, timeInMilliseconds = 0;
+    Handler customHandler = new Handler();
+
+    public static String getDateFromMillis(long d) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return df.format(d);
     }
 
-    public Counter(int min, int max, int start, int step) {
-        this.min = min;
-        this.start = start;
-        this.step = step;
-        this.current = this.start;
+    public void start(View v) {
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
     }
 
-    public void increment(){
-        current += step;
+    public void stop(View v) {
+        customHandler.removeCallbacks(updateTimerThread);
     }
 
-    public void reset(){
-        current = start;
-    }
-
-    public int getCurrent() {
-        return current;
-    }
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            textViewTimer.setText(getDateFromMillis(timeInMilliseconds));
+            customHandler.postDelayed(this, 1000);
+        }
+    };
 }
