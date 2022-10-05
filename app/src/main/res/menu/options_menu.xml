@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_settings"
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_favorite_gear_foreground"
+        android:iconTint="@color/white"
+        android:iconTintMode="src_atop"
         android:title="@string/action_settings"
-        android:icon="@drawable/ic_favorite_black_48dp"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>
