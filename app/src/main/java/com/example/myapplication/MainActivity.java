@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TabLayout tabLayout;
     private Intent intentMain;
     private TextView textViewSteps;
-    private Integer askeleita = 0;
+    private TextView textViewKm;
+    private Integer askeleita = -1;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
+    private float matka;
 
     TextView textViewTimer;
     long startTime, timeInMilliseconds = 0;
@@ -58,11 +60,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
             }
         }
-        textViewSteps = findViewById(R.id.textViewSteps);
         tabLayout = findViewById(R.id.tabit);
+        textViewKm = findViewById(R.id.textViewKm);
+        textViewSteps = findViewById(R.id.textViewSteps);
+        textViewTimer = (TextView) findViewById(R.id.textViewTimer);
         sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        textViewTimer = (TextView) findViewById(R.id.textViewTimer);
 
 
         /**
@@ -95,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
-        sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
-        Log.d("TEST", "SENSORI AKTIVOITU");
     }
 
     /**
@@ -111,11 +112,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * vie settings view
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                intentMain = new Intent(MainActivity.this ,
-                        AsetuksetView.class);
-                MainActivity.this.startActivity(intentMain);
+        if (item.getItemId() == R.id.action_settings) {
+            intentMain = new Intent(MainActivity.this,
+                    AsetuksetView.class);
+            MainActivity.this.startActivity(intentMain);
         }
         return false;
     }
@@ -125,12 +125,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onClick(View view) {
         if (view.getId() == R.id.buttonReset) {
             askeleita = 0;
+            matka = 0;
             textViewSteps.setText(askeleita.toString());
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
 
         }
         if(view.getId() == R.id.buttonStart) {
+            sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
         }
@@ -146,9 +148,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.d("TEST", "ASKEL");
             askeleita++;
             textViewSteps.setText(askeleita.toString());
+            if(matka > 0) {
+                matka = (float)(askeleita*78)/(float)100000;
+                textViewKm.setText((int) matka);
+            }
+
         }
     }
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
