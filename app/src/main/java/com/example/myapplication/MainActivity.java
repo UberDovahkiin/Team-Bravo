@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Intent intentMain;
     private TextView textViewSteps;
     private TextView textViewKm;
-    private Integer askeleita = -1;
+    private Integer askeleita;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
     private float matka;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tabLayout = findViewById(R.id.tabit);
         textViewKm = findViewById(R.id.textViewKm);
         textViewSteps = findViewById(R.id.textViewSteps);
-        textViewTimer = (TextView) findViewById(R.id.textViewTimer);
+        textViewTimer = findViewById(R.id.textViewTimer);
         sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
@@ -123,7 +123,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     public void onClick(View view) {
         if (view.getId() == R.id.buttonReset) {
-            askeleita = 0;
+            askeleita = 900;
+            if(askeleita > 0) {
+                matka = (float)(askeleita*78)/(float)100000;
+                textViewKm.setText(String.format("%.2f", matka));
+            }
             matka = 0;
             textViewSteps.setText(askeleita.toString());
             startTime = SystemClock.uptimeMillis();
@@ -145,9 +149,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.d("TEST", "ASKEL");
             askeleita++;
             textViewSteps.setText(askeleita.toString());
-            if(matka > 0) {
+            if(askeleita > 0) {
                 matka = (float)(askeleita*78)/(float)100000;
-                textViewKm.setText((int) matka);
+                textViewKm.setText(String.valueOf(matka));
             }
 
         }
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-    private Runnable updateTimerThread = new Runnable() {
+    private final Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
             textViewTimer.setText(getDateFromMillis(timeInMilliseconds));
