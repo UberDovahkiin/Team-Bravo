@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     /**
      * Tarkkailee jos nappia clickataan ja tekee halutut jutut.
+     * Aloittaa askelten laskemisen ja kellon.
      */
     public void onClick(View view) {
         if (view.getId() == R.id.buttonReset) {
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
     private final Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;

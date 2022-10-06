@@ -10,6 +10,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Luokka sisältää kellon toiminnot, osa on mainActivityssä.
+ * @author Niko Heilimo
+ * @version
+ */
+
 public class Counter {
 
     TextView textViewTimer;
