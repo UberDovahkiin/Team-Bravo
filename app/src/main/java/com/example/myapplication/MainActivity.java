@@ -3,7 +3,9 @@ package com.example.myapplication;
 import static com.example.myapplication.Counter.getDateFromMillis;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -32,16 +34,17 @@ import com.google.android.material.tabs.TabLayout;
  */
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    private TabLayout tabLayout;
     private Intent intentMain;
-    private TextView textViewSteps;
+    private TextView textViewAskeleet;
     private TextView textViewKm;
-    private Integer askeleita = -1;
+    private TextView textViewTimer;
+    private Integer askeleita = 0;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
     private float matka;
+    private boolean sensoriOn = false;
+    private Counter counter = new Counter();
 
-    TextView textViewTimer;
     long startTime, timeInMilliseconds = 0;
     Handler customHandler = new Handler();
 
@@ -56,13 +59,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          * */
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
-            }
+            requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
         }
-        tabLayout = findViewById(R.id.tabit);
+        TabLayout tabLayout = findViewById(R.id.tabit);
         textViewKm = findViewById(R.id.textViewKm);
-        textViewSteps = findViewById(R.id.textViewSteps);
+        textViewAskeleet = findViewById(R.id.textViewAskeleet);
         textViewTimer = findViewById(R.id.textViewTimer);
         sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (view.getId() == R.id.buttonReset) {
             askeleita = 0;
             matka = 0;
-            textViewSteps.setText(String.valueOf(askeleita));
+            textViewAskeleet.setText(String.valueOf(askeleita));
+            textViewKm.setText(String.valueOf(matka));
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
 
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
         }else if(view.getId() == R.id.buttonStop) {
+            sensoriOn = false;
             customHandler.removeCallbacks(updateTimerThread);
             sensoriManageri.unregisterListener(this, askelMittari);
         }
@@ -144,14 +147,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             Log.d("TEST", "ASKEL");
-            askeleita++;
-            textViewSteps.setText(askeleita.toString());
+
+            if(sensoriOn) {
+                askeleita++;
+            }
+
+            textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
                 matka = (float)(askeleita*78)/(float)100000;
                 textViewKm.setText(String.format("%.2f", matka));
             }
 
         }
+        sensoriOn = true;
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -168,6 +176,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onPause() {
 
         super.onPause();
+        Log.e("TEST","Paused");
+        SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
+        editor.putInt("Kello", Integer.parseInt(String.valueOf(timeInMilliseconds)));
+        editor.putString("Matka", String.valueOf(matka));
+        editor.putString("Askeleet", String.valueOf(askeleita));
+        editor.commit();
+    }
+    public void onResume() {
 
+        super.onResume();
+        Log.e("TEST","Resumed");
+
+
+        SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
+
+        int kello = (prefGet.getInt("Kello",0));
+        kello /= 1000;
+        //textViewTimer.setText(kello);
+        Log.e("TEST", String.valueOf(kello));
+        textViewAskeleet.setText(prefGet.getString("Askeleet", "0"));
+        textViewKm.setText(prefGet.getString("Matka", "0"));
     }
 }

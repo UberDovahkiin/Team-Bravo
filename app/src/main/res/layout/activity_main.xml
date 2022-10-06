@@ -51,7 +51,7 @@
         app:layout_constraintStart_toEndOf="@+id/buttonStart" />
 
     <TextView
-        android:id="@+id/textViewSteps"
+        android:id="@+id/textViewAskeleet"
         android:layout_width="56dp"
         android:layout_height="0dp"
         android:layout_marginBottom="27dp"
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:text="Askelta"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSteps"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabit" />
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewAskeleet" />
 
     <Button
         android:id="@+id/buttonReset"

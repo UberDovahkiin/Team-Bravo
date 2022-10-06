@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Luokka sisältää kellon toiminnot, osa on mainActivityssä.
- * @author Niko Heilimo
- * @version
- */
-
 public class Counter {
-
+    /**
+     * Luokka sisältää kellon toiminnot, osa on mainActivityssä.
+     * @author Niko Heilimo
+     * @version
+     */
     TextView textViewTimer;
     long startTime, timeInMilliseconds = 0;
     Handler customHandler = new Handler();
@@ -26,6 +24,15 @@ public class Counter {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         return df.format(d);
+    }
+
+    public void start() {
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+    }
+
+    public void stop() {
+        customHandler.removeCallbacks(updateTimerThread);
     }
 
     private Runnable updateTimerThread = new Runnable() {
