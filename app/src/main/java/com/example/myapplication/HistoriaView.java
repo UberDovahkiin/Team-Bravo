@@ -89,7 +89,9 @@ public class HistoriaView extends AppCompatActivity {
         return true;
     }
 
-    // vie settings view
+    /**
+     * vie settings view
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
