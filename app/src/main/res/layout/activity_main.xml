@@ -52,25 +52,17 @@
 
     <TextView
         android:id="@+id/textViewSteps"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
+        android:layout_width="56dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:text="0"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewAskel"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTimer" />
-
-    <TextView
-        android:id="@+id/textViewKm"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="0"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabit"
@@ -111,5 +103,44 @@
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAskel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Askelta"
+        android:textAlignment="center"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSteps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewSteps" />
+
+    <TextView
+        android:id="@+id/textViewKilometri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Kilometriä"
+        android:textAlignment="center"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewKm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewKm" />
+
+    <TextView
+        android:id="@+id/textViewKm"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="0"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/textViewKilometri"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
