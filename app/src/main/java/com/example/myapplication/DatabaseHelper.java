@@ -8,8 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+/**
+ * Luokka sisältää tallennuksen ominaisuuden
+ * @author Jeremia Kekkonen
+ * @version 1.0
+ */
+
 public class DatabaseHelper extends SQLiteOpenHelper {
-    //Alusta tietokannan nimi ja taulun nimi
+    /**
+     * Alusta tietokannan nimi ja taulun nimi
+     * */
     private static final String DATABASE_NAME = "database_name";
     private static final String TABLE_NAME = "table_name";
 
@@ -19,34 +27,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Tee taulu
+        /**
+         * Tee taulu
+         * */
         String createTable = "create table table_name(id INTEGER PRIMARY KEY,txt TEXT)";
         db.execSQL(createTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Tuhoa vanha taulu jos olemassa
+        /**
+         * Tuhoa vanha taulu jos olemassa
+         * */
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_NAME);
         onCreate(db);
     }
 
     public boolean addText(String text){
-        // Hanki WriteAble tietokanta
+        /**
+         * Hanki WriteAble tietokanta
+         * */
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        // Luo ContentValues
+        /**
+         * Luo ContentValues
+         * */
         ContentValues contentValues = new ContentValues();
         contentValues.put("txt",text);
-        // Lisää arvot tietokantaan
+        /**
+         * Lisää arvot tietokantaan
+         * */
         sqLiteDatabase.insert(TABLE_NAME, null,contentValues);
         return true;
     }
 
     public ArrayList getAllText(){
-        // Hanki luettava tietokanta
+        /**
+         * Hanki luettava tietokanta
+         * */
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         ArrayList<String> arrayList = new ArrayList<String>();
-        // Rakenna Cursor valitakseen kaikki arvot
+        /**
+         * Rakenna Cursor valitakseen kaikki arvot
+         * */
         Cursor cursor = sqLiteDatabase.rawQuery("select * from "+TABLE_NAME
                 ,null);
         cursor.moveToFirst();

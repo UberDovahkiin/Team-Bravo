@@ -26,9 +26,9 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.tabs.TabLayout;
 
 /**
- * Luokka sisältää laskennassa tarvittavia apurutiineja <- esimerkki
- * @author
- * @version
+ * Luokka sisältää laskennassa tarvittavia apurutiineja (<- esimerkki)
+ * @author Pääkirjoittaja Jani Pudas, sivukirjoittaja Niko Heilimo, sivukirjoittaja Niilo Urpola, sivukirjoittaja Jeremia Kekkonen
+ * @version 2.0
  */
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
