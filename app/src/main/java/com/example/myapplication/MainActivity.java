@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Intent intentMain;
     private TextView textViewSteps;
     private TextView textViewKm;
-    private Integer askeleita;
+    private Integer askeleita = -1;
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
     private float matka;
@@ -123,13 +123,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     public void onClick(View view) {
         if (view.getId() == R.id.buttonReset) {
-            askeleita = 900;
-            if(askeleita > 0) {
-                matka = (float)(askeleita*78)/(float)100000;
-                textViewKm.setText(String.format("%.2f", matka));
-            }
+            askeleita = 0;
             matka = 0;
-            textViewSteps.setText(askeleita.toString());
+            textViewSteps.setText(String.valueOf(askeleita));
             startTime = SystemClock.uptimeMillis();
             customHandler.postDelayed(updateTimerThread, 0);
 
@@ -151,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             textViewSteps.setText(askeleita.toString());
             if(askeleita > 0) {
                 matka = (float)(askeleita*78)/(float)100000;
-                textViewKm.setText(String.valueOf(matka));
+                textViewKm.setText(String.format("%.2f", matka));
             }
 
         }
@@ -167,4 +163,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             customHandler.postDelayed(this, 1000);
         }
     };
+    public void onPause() {
+
+        super.onPause();
+
+    }
 }
