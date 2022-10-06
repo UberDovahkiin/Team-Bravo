@@ -53,16 +53,14 @@
     <TextView
         android:id="@+id/textViewSteps"
         android:layout_width="56dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="27dp"
         android:text="0"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/textViewAskel"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/textViewKilometri"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTimer" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewAskel2" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabit"
@@ -71,6 +69,8 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginBottom="130dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAskel2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -105,42 +105,38 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textViewAskel"
+        android:id="@+id/textViewAskel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="Askelta"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSteps"
+        app:layout_constraintBottom_toTopOf="@+id/textViewSteps"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textViewSteps" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabit" />
 
     <TextView
         android:id="@+id/textViewKilometri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="32dp"
         android:text="Kilometriä"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewKm"
+        app:layout_constraintBottom_toTopOf="@+id/textViewKm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textViewKm" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
     <TextView
         android:id="@+id/textViewKm"
         android:layout_width="58dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="0"
+        android:layout_marginBottom="444dp"
+        android:text="0.00"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/textViewKilometri"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewKilometri" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
