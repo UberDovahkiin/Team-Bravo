@@ -2,15 +2,30 @@ package com.example.myapplication;
 
 public class Suoritus {
 
-    private boolean aika;
-    private boolean askelMaara;
+    private String  aika;
+    private String  askelMaara;
+    private String matka;
 
-    public Suoritus(boolean aika, boolean askelMaara) {
+    public Suoritus(String aika, String askelMaara, String matka) {
         this.aika = aika;
         this.askelMaara = askelMaara;
+        this.matka = matka;
     }
 
-    public String getSuoritus() {
-        return this.askelMaara + " " + this.aika;
+    public String getAika() {
+        return aika;
+    }
+
+    public String getAskelMaara() {
+        return askelMaara;
+    }
+
+    public String getMatka() {
+        return matka;
+    }
+
+    @Override
+    public String toString() {
+        return "Aika: " + aika +" Askelmäärä: " + askelMaara + " Matka: " + matka + "Km";
     }
 }

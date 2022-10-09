@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import static com.example.myapplication.Counter.getDateFromMillis;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,13 +11,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,10 +24,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Timer;
+
 /**
- * Luokka sisältää laskennassa tarvittavia apurutiineja (<- esimerkki)
+ * Ohjelman pääluokka sisältää askelmittarin käynnistyksen
  * @author Pääkirjoittaja Jani Pudas, sivukirjoittaja Niko Heilimo, sivukirjoittaja Niilo Urpola, sivukirjoittaja Jeremia Kekkonen
- * @version 2.0
+ * @version 2.5
  */
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -43,17 +42,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor askelMittari;
     private float matka;
     private boolean sensoriOn = false;
-    private Counter counter = new Counter();
-
-    long startTime, timeInMilliseconds = 0;
-    Handler customHandler = new Handler();
-
+    private boolean timerOn = false;
+    private Timer timer;
+    private Timerlogiikka timerlogiikka;
+    private DatabaseHelper dbHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHelper = new DatabaseHelper(MainActivity.this);
         /**
          * Kysyy käyttäjältä luvan käyttää pedometeriä
          * */
@@ -67,8 +66,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textViewTimer = findViewById(R.id.textViewTimer);
         sensoriManageri = (SensorManager) getSystemService(SENSOR_SERVICE);
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-
-
+        timer = new Timer();
+        SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
+        if(!prefGet.getString("Aika", "0").equals("0.0")) {
+            double aika = Double.parseDouble(prefGet.getString("Aika", "0"));
+            timerlogiikka = new Timerlogiikka(aika);
+        }else {
+            timerlogiikka = new Timerlogiikka();
+        }
         /**
          * Luo kuuntelijan tabin painamista varten
          */
@@ -87,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Log.e("TEST", "Painettiin toista");
                     MainActivity.this.startActivity(intentMain);
                 }
-                }
+            }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
@@ -98,11 +103,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
+        Log.e("TEST","Created");
     }
 
     /**
      * luo settings napin headeriin.
-      */
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
@@ -125,20 +131,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     public void onClick(View view) {
         if (view.getId() == R.id.buttonReset) {
+            String aika = textViewTimer.getText().toString();
+            String askeleet = textViewAskeleet.getText().toString();
+            String matkaTXT = String.format("%.2f", matka);
+            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT);
             askeleita = 0;
-            matka = 0;
+            if(timerOn) {
+                timerlogiikka.lopetaTimer();
+            }
+            timerlogiikka = new Timerlogiikka();
+            textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+            timerlogiikka.aloitaTimer(textViewTimer,timer);
+            timerlogiikka.lopetaTimer();
             textViewAskeleet.setText(String.valueOf(askeleita));
-            textViewKm.setText(String.valueOf(matka));
-            startTime = SystemClock.uptimeMillis();
-            customHandler.postDelayed(updateTimerThread, 0);
+            textViewKm.setText(String.format("%.2f", matka));
+
+            timerOn = false;
 
         }else if(view.getId() == R.id.buttonStart) {
             sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
-            startTime = SystemClock.uptimeMillis();
-            customHandler.postDelayed(updateTimerThread, 0);
+            if(!timerOn) {
+                timerlogiikka.aloitaTimer(textViewTimer,timer);
+                textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+            }
+            timerOn = true;
         }else if(view.getId() == R.id.buttonStop) {
+            if (timerOn) {
+                timerlogiikka.lopetaTimer();
+            }
             sensoriOn = false;
-            customHandler.removeCallbacks(updateTimerThread);
+            timerOn = false;
             sensoriManageri.unregisterListener(this, askelMittari);
         }
     }
@@ -154,10 +176,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
-                matka = (float)(askeleita*78)/(float)100000;
+                SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
+                String sukupuoli = prefGet.getString("Sukupuoli","");
+                if(sukupuoli.equals("Mies")) {
+                    matka = (float)(askeleita*78)/(float)100000;
+                    Log.d("TEST","Mies ladattu");
+                }else if (sukupuoli.equals("Nainen")) {
+                    matka = (float)(askeleita*70)/(float)100000;
+                    Log.d("TEST","Nainen ladattu");
+                }else {
+                    matka = (float)(askeleita*78)/(float)100000;
+                }
                 textViewKm.setText(String.format("%.2f", matka));
             }
-
         }
         sensoriOn = true;
     }
@@ -165,37 +196,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-    private final Runnable updateTimerThread = new Runnable() {
-        public void run() {
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            textViewTimer.setText(getDateFromMillis(timeInMilliseconds));
-            customHandler.postDelayed(this, 1000);
-        }
-    };
     public void onPause() {
 
         super.onPause();
         Log.e("TEST","Paused");
+        double aika = timerlogiikka.nykyinenAika();
         SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
-        editor.putInt("Kello", Integer.parseInt(String.valueOf(timeInMilliseconds)));
+        editor.putString("Aika", String.valueOf(aika));
         editor.putString("Matka", String.valueOf(matka));
         editor.putString("Askeleet", String.valueOf(askeleita));
+        editor.putBoolean("kaynnista", timerOn);
         editor.commit();
     }
     public void onResume() {
 
         super.onResume();
         Log.e("TEST","Resumed");
-
-
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
-
-        int kello = (prefGet.getInt("Kello",0));
-        kello /= 1000;
-        //textViewTimer.setText(kello);
-        Log.e("TEST", String.valueOf(kello));
         textViewAskeleet.setText(prefGet.getString("Askeleet", "0"));
-        textViewKm.setText(prefGet.getString("Matka", "0"));
+        matka = Float.parseFloat(prefGet.getString("Matka", "0"));
+        if(!prefGet.getString("Aika", "0.0").equals("0.0") && !timerOn) {
+            Log.e("TEST", prefGet.getString("AIKA","0.0"));
+            timerlogiikka.aloitaTimer(textViewTimer,timer);
+            timerOn = true;
+            textViewKm.setText(String.format("%.2f", matka));
+        }
+    }
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        Log.e("TEST","Killed");
+        SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
+        editor.putString("Aika", "0");
+        editor.putString("Matka", "0");
+        editor.putString("Askeleet", "0");
+        editor.commit();
+        timerlogiikka.lopetaTimer();
+        dbHelper.close();
     }
 }

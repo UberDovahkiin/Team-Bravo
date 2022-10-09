@@ -5,51 +5,94 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-public class AsetuksetView extends AppCompatActivity {
+public class AsetuksetView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Spinner spinner;
+    Spinner dropdown;
     EditText editTextPaino;
     EditText editTextPituus;
+    String painoData;
+    String pituusData;
+    String sukupuoliData;
+    String valinta;
+    int spinnerValittu;
+
 
     public static final String MY_App = "com.example.sharedpreferences.Names";
-
+    String[] items = new String[]{"Sukupuoli", "Mies", "Nainen", "Muu"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asetukset_view);
+        editTextPaino = findViewById(R.id.editTextPaino);
+        editTextPituus = findViewById(R.id.editTextPituus);
+        /**
+         * Dropdown vaihtoehtojen luonti
+         */
+        dropdown = findViewById(R.id.spinner);
 
-
-        // Dropdown vaihtoehtojen luonti
-        Spinner dropdown = findViewById(R.id.spinner);
-        String[] items = new String[]{"Sukupuoli", "Mies", "Nainen", "Muu"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(this);
+        valinta = "mies";
+        spinnerValittu = adapter.getPosition(valinta);
+        dropdown.setSelection(spinnerValittu);
 
-        editTextPituus = (EditText) findViewById(R.id.editTextPituus);
-        editTextPaino = (EditText) findViewById(R.id.editTextPaino);
+        SharedPreferences prefGet = getSharedPreferences("Arvot", Activity.MODE_PRIVATE);
+        pituusData = prefGet.getString("pituus", "0");
+        painoData = prefGet.getString("paino", "0");
+        sukupuoliData = prefGet.getString("Sukupuoli", "Sukupuoli");
+        editTextPituus.setText(pituusData);
+        editTextPaino.setText(painoData);
+        if(sukupuoliData.equals("Mies")) {
+            dropdown.setSelection(1);
+        }else if(sukupuoliData.equals("Nainen")) {
+            dropdown.setSelection(2);
+        }
 
-        Button button = (Button) findViewById(R.id.button_Save_Settings);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                String pituus = editTextPituus.getText()
-                        .toString()
-                        .trim();
+    }
+    /**
+     * Buttonin olisi tarkoitus talentaa tiedot jotka käyttäjä on kirjoittanut
+     */
+    public void onClick(View view) {
 
-                SharedPreferences.Editor editor = getSharedPreferences(MY_App, MODE_PRIVATE).edit();
-                editor.putString("", pituus);
-                editor.commit();
-            }
-        });
+        if (view.getId() == R.id.button_Save_Settings) {
+            Log.d("MY_APP", "onClick voisitko kiltisti tallentaa");
+            SharedPreferences.Editor prefEditor = getSharedPreferences("Arvot", Activity.MODE_PRIVATE).edit();
+            painoData = editTextPaino.getText().toString();
+            pituusData = editTextPituus.getText().toString();
+            prefEditor.putString("paino", painoData);
+            prefEditor.putString("pituus", pituusData);
+            prefEditor.commit();
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(!items[position].equals("Sukupuoli")) {
+            SharedPreferences.Editor prefEditor = getSharedPreferences("Arvot", Activity.MODE_PRIVATE).edit();
+            sukupuoliData = items[position];
+            prefEditor.putString("Sukupuoli", sukupuoliData);
+            prefEditor.commit();
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
-

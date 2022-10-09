@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Luokka sisältää tallennuksen ominaisuuden
@@ -18,8 +19,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Alusta tietokannan nimi ja taulun nimi
      * */
-    private static final String DATABASE_NAME = "database_name";
-    private static final String TABLE_NAME = "table_name";
+    private static final String DATABASE_NAME = "Tiedot";
+    private static final String TABLE_NAME = "Suoritukset";
+    private static  final String ID = "id";
+    private static  final String AIKA = "aika";
+    private static  final String ASKELEET = "askeleet";
+    private static  final String MATKA = "matka";
+    private Suoritus suoritus;
 
     DatabaseHelper(Context context){
         super(context,DATABASE_NAME,null,1);
@@ -30,7 +36,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /**
          * Tee taulu
          * */
-        String createTable = "create table table_name(id INTEGER PRIMARY KEY,txt TEXT)";
+        String createTable = "CREATE TABLE " + TABLE_NAME + " ("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + AIKA + " TEXT,"
+                + ASKELEET + " TEXT,"
+                + MATKA + " TEXT)";
         db.execSQL(createTable);
     }
 
@@ -43,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addText(String text){
+    public void LisaaSuoritus(String aika, String askeleet, String matka ){
         /**
          * Hanki WriteAble tietokanta
          * */
@@ -52,12 +62,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          * Luo ContentValues
          * */
         ContentValues contentValues = new ContentValues();
-        contentValues.put("txt",text);
+        contentValues.put(AIKA,aika);
+        contentValues.put(ASKELEET,askeleet);
+        contentValues.put(MATKA,matka);
         /**
          * Lisää arvot tietokantaan
          * */
         sqLiteDatabase.insert(TABLE_NAME, null,contentValues);
-        return true;
+    }
+    public ArrayList<Suoritus> haeSuoritukset(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<Suoritus> suoritusLista = new ArrayList<>();
+        String query = "SELECT aika, askeleet, matka FROM "+ "Suoritukset";
+        Cursor cursor = db.rawQuery(query,null);
+        while (cursor.moveToNext()){
+            String aika = cursor.getString(cursor.getColumnIndexOrThrow(AIKA));
+            String askeleet = cursor.getString(cursor.getColumnIndexOrThrow(ASKELEET));
+            String matka = cursor.getString(cursor.getColumnIndexOrThrow(MATKA));
+            suoritus = new Suoritus(aika,askeleet,matka);
+            suoritusLista.add(suoritus);
+        }
+        return  suoritusLista;
     }
 
     public ArrayList getAllText(){

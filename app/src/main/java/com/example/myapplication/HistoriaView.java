@@ -10,17 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 public class HistoriaView extends AppCompatActivity {
     Intent intentMain;
     TabLayout tabLayout;
     ListView lv;
-
+    public static final String EXTRA = "com.example.myapplication.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +65,20 @@ public class HistoriaView extends AppCompatActivity {
             }
         });
 
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        ArrayList<Suoritus> suoritukset = dbHelper.haeSuoritukset();
         lv = findViewById(R.id.lvHistoria);
-        lv.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                Suoritukset.getInstance().getSuoritukset()));
+        ListView lv = findViewById(R.id.lvHistoria);
+
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, suoritukset);
+        lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick(" + i + ")");
+
                 Intent nextActivity = new Intent(HistoriaView.this, HistoriaView.class);
-                nextActivity.putExtra("Item_onClick", i);
+                nextActivity.putExtra("ITEM", i);
                 startActivity(nextActivity);
 
             }

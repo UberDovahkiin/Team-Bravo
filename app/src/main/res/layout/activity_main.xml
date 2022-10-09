@@ -51,6 +51,17 @@
         app:layout_constraintStart_toEndOf="@+id/buttonStart" />
 
     <TextView
+        android:id="@+id/textViewAskel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Askelta"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabit" />
+
+    <TextView
         android:id="@+id/textViewAskeleet"
         android:layout_width="56dp"
         android:layout_height="0dp"
@@ -73,17 +84,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewKilometri" />
-
-    <TextView
-        android:id="@+id/textViewAskel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Askelta"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabit" />
 
     <TextView
         android:id="@+id/textViewKilometri"
