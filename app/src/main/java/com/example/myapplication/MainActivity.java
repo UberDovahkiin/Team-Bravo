@@ -24,6 +24,9 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 
 /**
@@ -134,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             String aika = textViewTimer.getText().toString();
             String askeleet = textViewAskeleet.getText().toString();
             String matkaTXT = String.format("%.2f", matka);
-            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT);
+            String paiva = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT,paiva);
             askeleita = 0;
             if(timerOn) {
                 timerlogiikka.lopetaTimer();

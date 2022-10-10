@@ -25,6 +25,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static  final String AIKA = "aika";
     private static  final String ASKELEET = "askeleet";
     private static  final String MATKA = "matka";
+    private static final String PAIVA = "paiva";
+    private static  final String ALOTUS = "alotus";
+    private static  final String LOPETUS = "lopetus";
     private Suoritus suoritus;
 
     DatabaseHelper(Context context){
@@ -40,7 +43,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + AIKA + " TEXT,"
                 + ASKELEET + " TEXT,"
-                + MATKA + " TEXT)";
+                + MATKA + " TEXT,"
+                + PAIVA + " TEXT)";
         db.execSQL(createTable);
     }
 
@@ -53,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void LisaaSuoritus(String aika, String askeleet, String matka ){
+    public void LisaaSuoritus(String aika, String askeleet, String matka, String paiva){
         /**
          * Hanki WriteAble tietokanta
          * */
@@ -65,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(AIKA,aika);
         contentValues.put(ASKELEET,askeleet);
         contentValues.put(MATKA,matka);
+        contentValues.put(PAIVA,paiva);
         /**
          * Lisää arvot tietokantaan
          * */
@@ -73,34 +78,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Suoritus> haeSuoritukset(){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Suoritus> suoritusLista = new ArrayList<>();
-        String query = "SELECT aika, askeleet, matka FROM "+ "Suoritukset";
+        String query = "SELECT aika, askeleet, matka, paiva FROM "+ "Suoritukset";
         Cursor cursor = db.rawQuery(query,null);
         while (cursor.moveToNext()){
             String aika = cursor.getString(cursor.getColumnIndexOrThrow(AIKA));
             String askeleet = cursor.getString(cursor.getColumnIndexOrThrow(ASKELEET));
             String matka = cursor.getString(cursor.getColumnIndexOrThrow(MATKA));
-            suoritus = new Suoritus(aika,askeleet,matka);
+            String paiva = cursor.getString(cursor.getColumnIndexOrThrow(PAIVA));
+            suoritus = new Suoritus(aika,askeleet,matka,paiva);
             suoritusLista.add(suoritus);
         }
         return  suoritusLista;
-    }
-
-    public ArrayList getAllText(){
-        /**
-         * Hanki luettava tietokanta
-         * */
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        ArrayList<String> arrayList = new ArrayList<String>();
-        /**
-         * Rakenna Cursor valitakseen kaikki arvot
-         * */
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from "+TABLE_NAME
-                ,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            arrayList.add(cursor.getString(cursor.getColumnIndex("txt")));
-            cursor.moveToNext();
-        }
-        return arrayList;
     }
 }
