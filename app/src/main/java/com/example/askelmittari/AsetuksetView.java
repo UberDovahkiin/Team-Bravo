@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-
+/**
+ * @author Niilo Urpola
+ */
 public class AsetuksetView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner dropdown;

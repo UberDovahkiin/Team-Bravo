@@ -1,11 +1,15 @@
 package com.example.askelmittari;
 
+/**
+ * @author Jani Pudas
+ * Suoritus class
+ */
 public class Suoritus {
 
-    private String  aika;
-    private String  askelMaara;
-    private String matka;
-    private String paiva;
+    private final String  aika;
+    private final String  askelMaara;
+    private final String matka;
+    private final String paiva;
 
     public Suoritus(String aika, String askelMaara, String matka, String paiva) {
         this.aika = aika;

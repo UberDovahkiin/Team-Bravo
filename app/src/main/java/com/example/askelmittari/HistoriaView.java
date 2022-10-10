@@ -16,6 +16,10 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+/**
+ * View jossa näkyy suoritushistoria listviewn avulla
+ * @author Niilo Urpola
+ */
 public class HistoriaView extends AppCompatActivity {
     Intent intentMain;
     TabLayout tabLayout;

@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             String paiva = LocalDate.now().format( DateTimeFormatter.ofLocalizedDate( FormatStyle.SHORT ));
             dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT, paiva);
             askeleita = 0;
+            matka = 0;
             if(timerOn) {
                 timerlogiikka.lopetaTimer();
             }
@@ -163,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 textViewTimer.setText(timerlogiikka.pyoristaLuvut());
             }
             timerOn = true;
-            sensoriOn = true;
             paused = false;
         }else if(view.getId() == R.id.buttonStop) {
             if (timerOn) {
@@ -179,12 +179,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            Log.d("TEST", "ASKEL");
-
             if(sensoriOn) {
                 askeleita++;
             }
-
             textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
                 SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);

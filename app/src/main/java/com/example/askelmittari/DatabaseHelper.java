@@ -72,6 +72,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          * */
         sqLiteDatabase.insert(TABLE_NAME, null,contentValues);
     }
+
+    /**
+     * 
+     * @return palauttaa kaikki suoritukset arraylistana
+     */
     public ArrayList<Suoritus> haeSuoritukset(){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Suoritus> suoritusLista = new ArrayList<>();

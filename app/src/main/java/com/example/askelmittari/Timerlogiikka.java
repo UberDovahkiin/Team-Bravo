@@ -9,7 +9,7 @@ public class Timerlogiikka extends MainActivity{
     /**
      * Luokka sisältää kellon toiminnot.
      * @author Niko Heilimo
-     * @version
+     * @version 1.5
      */
     Double time = 0.0;
     Timer timer;
