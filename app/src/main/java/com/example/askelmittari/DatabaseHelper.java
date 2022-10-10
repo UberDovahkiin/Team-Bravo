@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.askelmittari;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Luokka sisältää tallennuksen ominaisuuden

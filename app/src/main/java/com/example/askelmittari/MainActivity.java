@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.askelmittari;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,12 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDate;

@@ -1,8 +1,6 @@
-package com.example.myapplication;
+package com.example.askelmittari;
 
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
