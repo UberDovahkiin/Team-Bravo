@@ -114,7 +114,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="130dp"
-        android:background="#673AB7"
+        android:background="#6200ED"
         app:layout_constraintBottom_toTopOf="@+id/textViewAskel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +133,7 @@
             android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#6200ED"
             android:text="Historia"
             tools:layout_editor_absoluteX="150dp"
             tools:layout_editor_absoluteY="9dp" />
