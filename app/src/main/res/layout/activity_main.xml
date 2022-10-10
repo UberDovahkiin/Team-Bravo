@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark"
     android:onClick="onClick"
     tools:context=".MainActivity"
     tools:menu="@menu/options_menu">
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="00:00:00"
+        android:textColor="@color/white"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Askelta"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +71,7 @@
         android:layout_marginBottom="27dp"
         android:text="0"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textViewKilometri"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +84,7 @@
         android:layout_marginBottom="444dp"
         android:text="0.00"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +96,7 @@
         android:layout_height="wrap_content"
         android:text="Kilometriä"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textViewKm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -112,14 +118,13 @@
         android:id="@+id/tabit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="130dp"
+        android:background="#6200ED"
         app:layout_constraintBottom_toTopOf="@+id/textViewAskel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabTextColor="#FFFFFF">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem1"
@@ -133,6 +138,7 @@
             android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#6200ED"
             android:text="Historia"
             tools:layout_editor_absoluteX="150dp"
             tools:layout_editor_absoluteY="9dp" />

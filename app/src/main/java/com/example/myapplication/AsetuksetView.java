@@ -49,12 +49,17 @@ public class AsetuksetView extends AppCompatActivity implements AdapterView.OnIt
         spinnerValittu = adapter.getPosition(valinta);
         dropdown.setSelection(spinnerValittu);
 
+        /**
+         *  Hakee tiedot SharedPreferences asetuksiin kirjoitetut tiedot
+         */
+
         SharedPreferences prefGet = getSharedPreferences("Arvot", Activity.MODE_PRIVATE);
         pituusData = prefGet.getString("pituus", "0");
         painoData = prefGet.getString("paino", "0");
         sukupuoliData = prefGet.getString("Sukupuoli", "Sukupuoli");
         editTextPituus.setText(pituusData);
         editTextPaino.setText(painoData);
+
         if(sukupuoliData.equals("Mies")) {
             dropdown.setSelection(1);
         }else if(sukupuoliData.equals("Nainen")) {
@@ -64,7 +69,7 @@ public class AsetuksetView extends AppCompatActivity implements AdapterView.OnIt
 
     }
     /**
-     * Buttonin olisi tarkoitus talentaa tiedot jotka käyttäjä on kirjoittanut
+     * Buttonin tallentaa käyttäjän asettamat tiedot
      */
     public void onClick(View view) {
 
@@ -76,10 +81,13 @@ public class AsetuksetView extends AppCompatActivity implements AdapterView.OnIt
             prefEditor.putString("paino", painoData);
             prefEditor.putString("pituus", pituusData);
             prefEditor.commit();
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Tiedot tallennettu", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Sharedpreferences tallentaa DropDown käyttäjä valinnan
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(!items[position].equals("Sukupuoli")) {
