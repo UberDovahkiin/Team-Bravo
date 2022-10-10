@@ -1,8 +1,8 @@
-package com.example.askelmittari;
+package com.example.myapplication;
 
 /**
- * @author Jani Pudas
  * Suoritus class
+ * @author Jani Pudas
  */
 public class Suoritus {
 

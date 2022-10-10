@@ -1,4 +1,4 @@
-package com.example.askelmittari;
+package com.example.myapplication;
 
 import android.widget.TextView;
 

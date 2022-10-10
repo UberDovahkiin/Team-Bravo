@@ -1,4 +1,4 @@
-package com.example.askelmittari;
+package com.example.myapplication;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * 
+     *
      * @return palauttaa kaikki suoritukset arraylistana
      */
     public ArrayList<Suoritus> haeSuoritukset(){

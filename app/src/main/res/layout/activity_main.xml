@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_green_dark"
     android:onClick="onClick"
-    tools:context="com.example.askelmittari.MainActivity"
+    tools:context="com.example.myapplication.MainActivity"
     tools:menu="@menu/options_menu">
 
     <TextView

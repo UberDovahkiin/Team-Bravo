@@ -1,4 +1,4 @@
-package com.example.askelmittari;
+package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

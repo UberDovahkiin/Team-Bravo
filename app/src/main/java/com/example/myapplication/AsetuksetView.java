@@ -1,4 +1,4 @@
-package com.example.askelmittari;
+package com.example.myapplication;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.R;
 /**
+ * Asetusview jossä käyttäjä voi lisätä pituuden, painon ja sukupuolensa.
  * @author Niilo Urpola
  */
 public class AsetuksetView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
