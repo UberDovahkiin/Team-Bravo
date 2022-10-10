@@ -29,7 +29,10 @@ public class Timerlogiikka extends MainActivity{
     }
 
     /**
-     * Aloittaa timerin
+     *
+     * @param textView annettu textview jossa aika juoksee.
+     * @param timer annettu timer instance.
+     * @return palauttaa annetun kentän johon timer lisää numerot.
      */
     public TextView aloitaTimer(TextView textView, Timer timer) {
 
@@ -59,7 +62,7 @@ public class Timerlogiikka extends MainActivity{
     }
 
     /**
-     * Muuntaa
+     * Muuntaa ajan oikein
      */
     public String pyoristaLuvut() {
         int rounded = (int) Math.round(time);
@@ -68,13 +71,14 @@ public class Timerlogiikka extends MainActivity{
         int sekunnit = ((rounded % 86400) % 3600) % 60;
         return formatTime(sekunnit,minuutit,tunnit);
     }
-    public void resettaaTimer(Timer timer) {
-        time = 0.0;
-    }
-
     public String formatTime(int sekunnit, int minuutit, int tunnit) {
         return String.format("%02d",tunnit) + ":" + String.format("%02d",minuutit) + ":" + String.format("%02d",sekunnit);
     }
+
+    /**
+     *
+     * @return palauttaa nykyisen ajan.
+     */
     public double nykyinenAika() {
 
         return time;

@@ -29,13 +29,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".SuoritusView"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".HistoriaView"
             android:exported="false">
             <meta-data

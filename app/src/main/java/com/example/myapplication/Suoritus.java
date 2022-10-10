@@ -5,27 +5,17 @@ public class Suoritus {
     private String  aika;
     private String  askelMaara;
     private String matka;
+    private String paiva;
 
-    public Suoritus(String aika, String askelMaara, String matka) {
+    public Suoritus(String aika, String askelMaara, String matka, String paiva) {
         this.aika = aika;
         this.askelMaara = askelMaara;
         this.matka = matka;
-    }
-
-    public String getAika() {
-        return aika;
-    }
-
-    public String getAskelMaara() {
-        return askelMaara;
-    }
-
-    public String getMatka() {
-        return matka;
+        this.paiva = paiva;
     }
 
     @Override
     public String toString() {
-        return "Aika: " + aika +" Askelmäärä: " + askelMaara + " Matka: " + matka + "Km";
+        return paiva + "\n" +"Aika: " + aika +" Askelmäärä: " + askelMaara + " Matka: " + matka + "Km";
     }
 }
