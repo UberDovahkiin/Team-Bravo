@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark"
     android:onClick="onClick"
     tools:context=".MainActivity"
     tools:menu="@menu/options_menu">
@@ -112,14 +113,13 @@
         android:id="@+id/tabit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="130dp"
+        android:background="#673AB7"
         app:layout_constraintBottom_toTopOf="@+id/textViewAskel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabTextColor="#FFFFFF">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem1"
