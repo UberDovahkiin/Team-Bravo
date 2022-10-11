@@ -6,4 +6,4 @@
     android:background="#6200ED"
     android:text="TextView"
     android:textColor="#FFFFFF"
-    android:textSize="17sp"/>
+    android:textSize="17sp" />

@@ -13,7 +13,7 @@
         android:id="@+id/textViewTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:text="00:00:00"
         android:textColor="@color/white"
         android:textSize="35sp"
@@ -27,15 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTimer"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:onClick="onClick"
         android:text="Aloita"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonStop"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonTallenna"
+        app:layout_constraintEnd_toEndOf="@+id/buttonTallenna" />
 
     <Button
         android:id="@+id/buttonStop"
@@ -43,94 +40,90 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTimer"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginBottom="5dp"
         android:onClick="onClick"
         android:text="Pause"
-        app:layout_constraintBaseline_toBaselineOf="@+id/buttonStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonStart" />
-
-    <TextView
-        android:id="@+id/textViewAskel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Askelta"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabit" />
-
-    <TextView
-        android:id="@+id/textViewAskeleet"
-        android:layout_width="56dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="27dp"
-        android:text="0"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textViewKilometri"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAskel" />
-
-    <TextView
-        android:id="@+id/textViewKm"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="444dp"
-        android:text="0.00"
-        android:textAlignment="center"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewKilometri" />
-
-    <TextView
-        android:id="@+id/textViewKilometri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Kilometriä"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textViewKm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAskeleet" />
+        app:layout_constraintStart_toEndOf="@+id/textViewKm" />
 
     <Button
         android:id="@+id/buttonTallenna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="5dp"
         android:onClick="onClick"
         android:text="Tallenna"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonStop"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toEndOf="@+id/buttonReset" />
 
     <Button
         android:id="@+id/buttonReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginBottom="5dp"
         android:onClick="onClick"
         android:text="Reset"
-        app:layout_constraintEnd_toEndOf="@+id/buttonTallenna"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTallenna" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewKm" />
+
+    <TextView
+        android:id="@+id/textViewAskel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="1dp"
+        android:text="Askelta"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAskeleet"
+        app:layout_constraintStart_toStartOf="@+id/textViewAskeleet" />
+
+    <TextView
+        android:id="@+id/textViewAskeleet"
+        android:layout_width="57dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="28dp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewKilometri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTimer" />
+
+    <TextView
+        android:id="@+id/textViewKilometri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="Kilometriä"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textViewKm"
+        app:layout_constraintStart_toStartOf="@+id/buttonStart" />
+
+    <TextView
+        android:id="@+id/textViewKm"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:text="0.00"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabit"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="130dp"
+        android:layout_height="47dp"
         android:background="#6200ED"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAskel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -141,15 +134,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Suoritus"
-            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteX="268dp"
             tools:layout_editor_absoluteY="7dp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#6200ED"
             android:text="Historia"
-            tools:layout_editor_absoluteX="150dp"
+            tools:layout_editor_absoluteX="368dp"
             tools:layout_editor_absoluteY="9dp" />
 
     </com.google.android.material.tabs.TabLayout>
