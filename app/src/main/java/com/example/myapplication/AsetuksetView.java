@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * Asetusview jossä käyttäjä voi lisätä pituuden, painon ja sukupuolensa.
  * @author Pääkirjoittaja Niilo Urpola, sivukirjoittaja Jani Pudas
+ * @version 1.0
  */
 public class AsetuksetView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 

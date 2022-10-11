@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Aloittaa askelten laskemisen ja kellon.
      */
     public void onClick(View view) {
+        // Jos painetaan Tallenna
         if (view.getId() == R.id.buttonTallenna) {
             if(!textViewAskeleet.getText().toString().equals("0")) {
                 String aika = textViewTimer.getText().toString();
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }else if (textViewAskeleet.getText().toString().equals("0") && timerOn){
                 Toast.makeText(this, "0 askelta ei voi tallentaa", Toast.LENGTH_SHORT).show();
             }
+            // Jos painetaan Käynnistä
         }else if(view.getId() == R.id.buttonStart) {
             sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
             if(!timerOn) {
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
             timerOn = true;
             paused = false;
+            // Jos painetaan Stop
         }else if(view.getId() == R.id.buttonStop) {
             if (timerOn) {
                 timerlogiikka.lopetaTimer();
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sensoriOn = false;
             paused = true;
         }
+        // Jos painetaan Reset
         else if (view.getId() == R.id.buttonReset) {
             askeleita = 0;
             matka = 0;
@@ -196,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    /**
+     * Kuuntelee jos pedometrissä tapahtuu muutos ja lisää askeleen sekä riippuen sukupuoli valinnasta laskee kilometrit eri tavalla.
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
@@ -225,9 +232,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
     public void onPause() {
-
         super.onPause();
-        Log.e("TEST","Paused");
         double aika = timerlogiikka.nykyinenAika();
         SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
         editor.putString("Aika", String.valueOf(aika));
@@ -237,9 +242,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         editor.commit();
     }
     public void onResume() {
-
         super.onResume();
-        Log.e("TEST","Resumed");
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
         textViewAskeleet.setText(prefGet.getString("Askeleet", "0"));
         matka = Float.parseFloat(prefGet.getString("Matka", "0"));
