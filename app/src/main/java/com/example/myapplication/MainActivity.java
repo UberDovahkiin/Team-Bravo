@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float matka;
     private boolean sensoriOn;
     private boolean timerOn;
-    private boolean paused;
+    private boolean paused = true;
     private Timer timer;
     private Timerlogiikka timerlogiikka;
     private DatabaseHelper dbHelper;
@@ -89,11 +89,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     intentMain = new Intent(MainActivity.this, MainActivity.class);
-
                 }else if (tab.getPosition() == 1) {
-                    intentMain = new Intent(MainActivity.this,
-                            HistoriaView.class);
-                    Log.e("TEST", "Painettiin toista");
+                    intentMain = new Intent(MainActivity.this,HistoriaView.class);
+                    unregister(askelMittari);
                     MainActivity.this.startActivity(intentMain);
                 }
             }
@@ -111,22 +109,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Log.e("TEST", String.valueOf(paused));
     }
 
+
     /**
      * luo settings napin headeriin.
      */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
-    }
 
+    }
+public void unregister(Sensor askelMittari) {
+    sensoriManageri.unregisterListener(this,askelMittari);
+}
     /**
      * vie settings view
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            intentMain = new Intent(MainActivity.this,
-                    AsetuksetView.class);
-            MainActivity.this.startActivity(intentMain);
+            if(!timerOn) {
+                intentMain = new Intent(MainActivity.this,
+                        AsetuksetView.class);
+                MainActivity.this.startActivity(intentMain);
+            }else {
+                Toast.makeText(this, "Tallenna tai resettaa askelmittaus", Toast.LENGTH_SHORT).show();
+            }
+
         }
         return false;
     }
@@ -205,13 +212,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
+        SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
+        SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             if(sensoriOn) {
                 askeleita++;
+                editor.putString("Askeleet", String.valueOf(askeleita));
+                editor.commit();
+                Log.e("TEST",prefGet.getString("Askeleet","0"));
             }
             textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
-                SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
                 String sukupuoli = prefGet.getString("Sukupuoli","");
                 if(sukupuoli.equals("Mies")) {
                     matka = (float)(askeleita*78)/(float)100000;
@@ -233,23 +244,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     public void onPause() {
         super.onPause();
-        double aika = timerlogiikka.nykyinenAika();
+        Log.e("TEST","PAUSED");
         SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
-        editor.putString("Aika", String.valueOf(aika));
-        editor.putString("Matka", String.valueOf(matka));
-        editor.putString("Askeleet", String.valueOf(askeleita));
+        editor.putString("Aika", String.valueOf(timerlogiikka.nykyinenAika()));
         editor.putBoolean("Paused", paused);
         editor.commit();
     }
     public void onResume() {
         super.onResume();
+        Log.e("TEST", "RESUMED");
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
-        textViewAskeleet.setText(prefGet.getString("Askeleet", "0"));
-        matka = Float.parseFloat(prefGet.getString("Matka", "0"));
-        paused = prefGet.getBoolean("Paused",false);
+        paused = prefGet.getBoolean("Paused",true);
+        Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
         textViewTimer.setText(timerlogiikka.pyoristaLuvut());
-        if(!prefGet.getString("Aika", "0.0").equals("0.0") && !timerOn && !paused) {
+        textViewAskeleet.setText(prefGet.getString("Askeleet","0"));
+        sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
+        if(!timerOn && !paused) {
             Log.e("TEST","Alotettiin");
+            askeleita = Integer.valueOf(prefGet.getString("Askeleet","0"));
             timerlogiikka.aloitaTimer(textViewTimer,timer);
             timerOn = true;
             textViewKm.setText(String.format("%.2f", matka));

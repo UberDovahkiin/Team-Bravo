@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,16 +23,15 @@ import java.util.ArrayList;
  * @version 1.5
  */
 public class HistoriaView extends AppCompatActivity {
-    Intent intentMain;
-    TabLayout tabLayout;
-    ListView lv;
+    private Intent intentMain;
+    private TabLayout tabLayout;
+    private ListView lv;
     public static final String EXTRA = "com.example.myapplication.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historia_view);
-
         tabLayout = findViewById(R.id.tabit);
         TabLayout.Tab tab = tabLayout.getTabAt(1);
         tab.select();
