@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_green_dark"
     android:onClick="onClick"
-    tools:context=".MainActivity"
+    tools:context="com.example.myapplication.MainActivity"
     tools:menu="@menu/options_menu">
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="onClick"
-        android:text="Start"
+        android:text="Aloita"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonStop"
         app:layout_constraintHorizontal_bias="0.5"
@@ -46,7 +46,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="onClick"
-        android:text="Stop"
+        android:text="Pause"
         app:layout_constraintBaseline_toBaselineOf="@+id/buttonStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -107,10 +107,10 @@
         android:id="@+id/buttonReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginBottom="96dp"
         android:onClick="onClick"
-        android:text="Reset"
+        android:text="Tallenna"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

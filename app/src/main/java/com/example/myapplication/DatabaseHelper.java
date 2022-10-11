@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Luokka sisältää tallennuksen ominaisuuden
@@ -21,13 +20,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * */
     private static final String DATABASE_NAME = "Tiedot";
     private static final String TABLE_NAME = "Suoritukset";
-    private static  final String ID = "id";
-    private static  final String AIKA = "aika";
-    private static  final String ASKELEET = "askeleet";
-    private static  final String MATKA = "matka";
+    private static final String ID = "id";
+    private static final String AIKA = "aika";
+    private static final String ASKELEET = "askeleet";
+    private static final String MATKA = "matka";
     private static final String PAIVA = "paiva";
-    private static  final String ALOTUS = "alotus";
-    private static  final String LOPETUS = "lopetus";
     private Suoritus suoritus;
 
     DatabaseHelper(Context context){
@@ -57,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void LisaaSuoritus(String aika, String askeleet, String matka, String paiva){
+    public void LisaaSuoritus(String aika, String askeleet, String matka, String paiva ){
         /**
          * Hanki WriteAble tietokanta
          * */
@@ -75,6 +72,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          * */
         sqLiteDatabase.insert(TABLE_NAME, null,contentValues);
     }
+
+    /**
+     *
+     * @return palauttaa kaikki suoritukset arraylistana
+     */
     public ArrayList<Suoritus> haeSuoritukset(){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Suoritus> suoritusLista = new ArrayList<>();
@@ -85,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String askeleet = cursor.getString(cursor.getColumnIndexOrThrow(ASKELEET));
             String matka = cursor.getString(cursor.getColumnIndexOrThrow(MATKA));
             String paiva = cursor.getString(cursor.getColumnIndexOrThrow(PAIVA));
-            suoritus = new Suoritus(aika,askeleet,matka,paiva);
+            suoritus = new Suoritus(aika,askeleet,matka, paiva);
             suoritusLista.add(suoritus);
         }
         return  suoritusLista;

@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +23,9 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Timer;
 
 /**
@@ -44,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensoriManageri;
     private Sensor askelMittari;
     private float matka;
-    private boolean sensoriOn = false;
-    private boolean timerOn = false;
+    private boolean sensoriOn;
+    private boolean timerOn;
+    private boolean paused;
     private Timer timer;
     private Timerlogiikka timerlogiikka;
     private DatabaseHelper dbHelper;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         askelMittari = sensoriManageri.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         timer = new Timer();
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
-        if(!prefGet.getString("Aika", "0").equals("0.0")) {
+        if(!prefGet.getString("Aika", "0.0").equals("0.0")) {
             double aika = Double.parseDouble(prefGet.getString("Aika", "0"));
             timerlogiikka = new Timerlogiikka(aika);
         }else {
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
         Log.e("TEST","Created");
+        Log.e("TEST", String.valueOf(paused));
     }
 
     /**
@@ -137,9 +138,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             String aika = textViewTimer.getText().toString();
             String askeleet = textViewAskeleet.getText().toString();
             String matkaTXT = String.format("%.2f", matka);
-            String paiva = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT,paiva);
+            String paiva = LocalDate.now().format( DateTimeFormatter.ofLocalizedDate( FormatStyle.SHORT ));
+            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT, paiva);
             askeleita = 0;
+            matka = 0;
             if(timerOn) {
                 timerlogiikka.lopetaTimer();
             }
@@ -149,8 +151,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             timerlogiikka.lopetaTimer();
             textViewAskeleet.setText(String.valueOf(askeleita));
             textViewKm.setText(String.format("%.2f", matka));
-
+            sensoriManageri.unregisterListener(this, askelMittari);
             timerOn = false;
+            sensoriOn = false;
+            paused = true;
 
         }else if(view.getId() == R.id.buttonStart) {
             sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
@@ -159,25 +163,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 textViewTimer.setText(timerlogiikka.pyoristaLuvut());
             }
             timerOn = true;
+            paused = false;
         }else if(view.getId() == R.id.buttonStop) {
             if (timerOn) {
                 timerlogiikka.lopetaTimer();
             }
-            sensoriOn = false;
-            timerOn = false;
             sensoriManageri.unregisterListener(this, askelMittari);
+            timerOn = false;
+            sensoriOn = false;
+            paused = true;
         }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            Log.d("TEST", "ASKEL");
-
             if(sensoriOn) {
                 askeleita++;
             }
-
             textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
                 SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
@@ -209,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         editor.putString("Aika", String.valueOf(aika));
         editor.putString("Matka", String.valueOf(matka));
         editor.putString("Askeleet", String.valueOf(askeleita));
-        editor.putBoolean("kaynnista", timerOn);
+        editor.putBoolean("Paused", paused);
         editor.commit();
     }
     public void onResume() {
@@ -219,24 +222,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
         textViewAskeleet.setText(prefGet.getString("Askeleet", "0"));
         matka = Float.parseFloat(prefGet.getString("Matka", "0"));
-        if(!prefGet.getString("Aika", "0.0").equals("0.0") && !timerOn) {
-            Log.e("TEST", prefGet.getString("AIKA","0.0"));
+        paused = prefGet.getBoolean("Paused",false);
+        textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+        if(!prefGet.getString("Aika", "0.0").equals("0.0") && !timerOn && !paused) {
+            Log.e("TEST","Alotettiin");
             timerlogiikka.aloitaTimer(textViewTimer,timer);
             timerOn = true;
             textViewKm.setText(String.format("%.2f", matka));
         }
-    }
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-        Log.e("TEST","Killed");
-        SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
-        editor.putString("Aika", "0");
-        editor.putString("Matka", "0");
-        editor.putString("Askeleet", "0");
-        editor.commit();
-        timerlogiikka.lopetaTimer();
-        dbHelper.close();
     }
 }

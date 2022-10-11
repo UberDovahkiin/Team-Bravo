@@ -39,3 +39,47 @@ dependencies {
 
 
 }
+android.applicationVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        title = "${rootProject.name} API Documentation (${project.android.defaultConfig.versionName})"
+        group = "Documentation"
+        description "Generates Javadoc for $variant.name."
+
+        source = variant.sourceSets.collect { it.java.sourceFiles }.inject { m, i -> m + i }
+
+        doFirst {
+            classpath = project.files(variant.javaCompileProvider.get().classpath.files,
+                    project.android.getBootClasspath())
+        }
+
+        if (JavaVersion.current().isJava8Compatible()) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+
+        exclude "**/R"
+        exclude "**/R.**"
+        exclude "**/R\$**"
+        exclude "**/BuildConfig*"
+
+        options {
+            encoding = "utf-8"
+            docEncoding = "utf-8"
+            windowTitle = "${rootProject.name} API Documentation (${project.android.defaultConfig.versionName})"
+            memberLevel = JavadocMemberLevel.PRIVATE
+            linkSource = false
+            author = true
+            version = true
+            use = true
+
+            links("https://developer.android.com/reference")
+            linksOffline("https://developer.android.com/reference",
+                    "https://d.android.com/reference/androidx")
+        }
+
+        destinationDir = new File(getBuildDir(), "outputs/javadoc/${variant.dirName}")
+
+        doLast {
+            println("Javadoc generated at ${destinationDir}")
+        }
+    }
+}

@@ -1,11 +1,15 @@
 package com.example.myapplication;
 
+/**
+ * Suoritus class
+ * @author Jani Pudas
+ */
 public class Suoritus {
 
-    private String  aika;
-    private String  askelMaara;
-    private String matka;
-    private String paiva;
+    private final String  aika;
+    private final String  askelMaara;
+    private final String matka;
+    private final String paiva;
 
     public Suoritus(String aika, String askelMaara, String matka, String paiva) {
         this.aika = aika;
@@ -16,6 +20,6 @@ public class Suoritus {
 
     @Override
     public String toString() {
-        return paiva + "\n" + "Aika: " + aika +" Askelmäärä: " + askelMaara + " Matka: " + matka + "Km";
+        return paiva + "\n" +"Aika: " + aika +" Askelmäärä: " + askelMaara + " Matka: " + matka + "Km";
     }
 }

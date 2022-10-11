@@ -1,22 +1,22 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+/**
+ * Asetusview jossä käyttäjä voi lisätä pituuden, painon ja sukupuolensa.
+ * @author Niilo Urpola
+ */
 public class AsetuksetView extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner dropdown;
@@ -28,9 +28,7 @@ public class AsetuksetView extends AppCompatActivity implements AdapterView.OnIt
     String valinta;
     int spinnerValittu;
 
-
-    public static final String MY_App = "com.example.sharedpreferences.Names";
-    String[] items = new String[]{"Sukupuoli", "Mies", "Nainen", "Muu"};
+    String[] items = new String[]{"Sukupuoli", "Mies", "Nainen"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +57,9 @@ public class AsetuksetView extends AppCompatActivity implements AdapterView.OnIt
         sukupuoliData = prefGet.getString("Sukupuoli", "Sukupuoli");
         editTextPituus.setText(pituusData);
         editTextPaino.setText(painoData);
-
+        /**
+         * Asettaa dropdown vaihtoehdon tallennetun datan mukaan.
+         */
         if(sukupuoliData.equals("Mies")) {
             dropdown.setSelection(1);
         }else if(sukupuoliData.equals("Nainen")) {
