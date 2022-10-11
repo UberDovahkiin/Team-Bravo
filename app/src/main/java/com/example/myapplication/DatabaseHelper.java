@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * Luokka sisältää tallennuksen ominaisuuden
  * @author Jeremia Kekkonen
- * @version 1.0
+ * @version 1.2
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {

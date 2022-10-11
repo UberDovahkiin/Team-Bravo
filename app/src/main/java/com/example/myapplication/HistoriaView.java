@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 /**
  * View jossa näkyy suoritushistoria listviewn avulla
- * @author Niilo Urpola
+ * @author Pääkirjoittaja Janipudas, Sivukirjoittaja Niilo Urpola
  */
 public class HistoriaView extends AppCompatActivity {
     Intent intentMain;
