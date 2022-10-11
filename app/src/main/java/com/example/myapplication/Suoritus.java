@@ -3,6 +3,7 @@ package com.example.myapplication;
 /**
  * Suoritus class
  * @author Jani Pudas
+ * @version 1.0
  */
 public class Suoritus {
 

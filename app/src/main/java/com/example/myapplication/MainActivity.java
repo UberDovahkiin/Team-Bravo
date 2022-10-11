@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,7 @@ import java.util.Timer;
 /**
  * Ohjelman pääluokka sisältää askelmittarin käynnistyksen
  * @author Pääkirjoittaja Jani Pudas, sivukirjoittaja Niko Heilimo, sivukirjoittaja Niilo Urpola, sivukirjoittaja Jeremia Kekkonen
- * @version 2.5
+ * @version 2.7
  */
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -135,27 +136,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     public void onClick(View view) {
         if (view.getId() == R.id.buttonTallenna) {
-            String aika = textViewTimer.getText().toString();
-            String askeleet = textViewAskeleet.getText().toString();
-            String matkaTXT = String.format("%.2f", matka);
-            String paiva = LocalDate.now().format( DateTimeFormatter.ofLocalizedDate( FormatStyle.SHORT ));
-            dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT, paiva);
-            askeleita = 0;
-            matka = 0;
-            if(timerOn) {
+            if(!textViewAskeleet.getText().toString().equals("0")) {
+                String aika = textViewTimer.getText().toString();
+                String askeleet = textViewAskeleet.getText().toString();
+                String matkaTXT = String.format("%.2f", matka);
+                String paiva = LocalDate.now().format( DateTimeFormatter.ofLocalizedDate( FormatStyle.SHORT ));
+                dbHelper.LisaaSuoritus(aika,askeleet,matkaTXT, paiva);
+                askeleita = 0;
+                matka = 0;
+                if(timerOn) {
+                    timerlogiikka.lopetaTimer();
+                }
+                timerlogiikka = new Timerlogiikka();
+                textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+                timerlogiikka.aloitaTimer(textViewTimer,timer);
                 timerlogiikka.lopetaTimer();
+                textViewAskeleet.setText(String.valueOf(askeleita));
+                textViewKm.setText(String.format("%.2f", matka));
+                sensoriManageri.unregisterListener(this, askelMittari);
+                timerOn = false;
+                sensoriOn = false;
+                paused = true;
+            }else if (textViewAskeleet.getText().toString().equals("0") && timerOn){
+                Toast.makeText(this, "0 askelta ei voi tallentaa", Toast.LENGTH_SHORT).show();
             }
-            timerlogiikka = new Timerlogiikka();
-            textViewTimer.setText(timerlogiikka.pyoristaLuvut());
-            timerlogiikka.aloitaTimer(textViewTimer,timer);
-            timerlogiikka.lopetaTimer();
-            textViewAskeleet.setText(String.valueOf(askeleita));
-            textViewKm.setText(String.format("%.2f", matka));
-            sensoriManageri.unregisterListener(this, askelMittari);
-            timerOn = false;
-            sensoriOn = false;
-            paused = true;
-
         }else if(view.getId() == R.id.buttonStart) {
             sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
             if(!timerOn) {
