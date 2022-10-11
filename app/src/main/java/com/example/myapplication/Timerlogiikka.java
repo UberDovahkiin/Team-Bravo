@@ -81,5 +81,4 @@ public class Timerlogiikka extends MainActivity{
 
         return time;
     }
-
 }

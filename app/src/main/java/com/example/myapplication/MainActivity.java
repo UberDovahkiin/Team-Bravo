@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Aloittaa askelten laskemisen ja kellon.
      */
     public void onClick(View view) {
-        if (view.getId() == R.id.buttonReset) {
+        if (view.getId() == R.id.buttonTallenna) {
             String aika = textViewTimer.getText().toString();
             String askeleet = textViewAskeleet.getText().toString();
             String matkaTXT = String.format("%.2f", matka);
@@ -168,6 +168,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if (timerOn) {
                 timerlogiikka.lopetaTimer();
             }
+            sensoriManageri.unregisterListener(this, askelMittari);
+            timerOn = false;
+            sensoriOn = false;
+            paused = true;
+        }
+        else if (view.getId() == R.id.buttonReset) {
+            askeleita = 0;
+            matka = 0;
+            if(timerOn) {
+                timerlogiikka.lopetaTimer();
+            }
+            timerlogiikka = new Timerlogiikka();
+            textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+            timerlogiikka.aloitaTimer(textViewTimer,timer);
+            timerlogiikka.lopetaTimer();
+            textViewAskeleet.setText(String.valueOf(askeleita));
+            textViewKm.setText(String.format("%.2f", matka));
             sensoriManageri.unregisterListener(this, askelMittari);
             timerOn = false;
             sensoriOn = false;

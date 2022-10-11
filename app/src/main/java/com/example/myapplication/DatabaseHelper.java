@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Luokka sisältää tallennuksen ominaisuuden
@@ -74,7 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @return palauttaa kaikki suoritukset arraylistana
      */
     public ArrayList<Suoritus> haeSuoritukset(){
@@ -90,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             suoritus = new Suoritus(aika,askeleet,matka, paiva);
             suoritusLista.add(suoritus);
         }
+        Collections.reverse(suoritusLista);
         return  suoritusLista;
     }
 }
