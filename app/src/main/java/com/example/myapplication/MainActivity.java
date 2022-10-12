@@ -259,7 +259,7 @@ public void unregister(Sensor askelMittari) {
         paused = prefGet.getBoolean("Paused",true);
         Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
         textViewTimer.setText(timerlogiikka.pyoristaLuvut());
-        textViewAskeleet.setText(prefGet.getString("Askeleet","0"));
+        textViewAskeleet.setText(askeleita.toString());
         sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
         if(!timerOn && !paused) {
             Log.e("TEST","Alotettiin");
