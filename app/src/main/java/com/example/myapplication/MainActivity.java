@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
              */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
-                    if(!timerOn) {
+                    if(!timerOn && textViewTimer.getText().equals("00:00:00")) {
                         intentMain = new Intent(MainActivity.this,HistoriaView.class);
                         MainActivity.this.startActivity(intentMain);
                     }else {
@@ -127,7 +127,7 @@ public void unregister(Sensor askelMittari) {
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            if(!timerOn) {
+            if(!timerOn && textViewTimer.getText().equals("00:00:00")) {
                 intentMain = new Intent(MainActivity.this,
                         AsetuksetView.class);
                 MainActivity.this.startActivity(intentMain);
