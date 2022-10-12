@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
              */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
-                    if(!timerOn && textViewTimer.getText().equals("00:00:00")) {
+                    if(!timerOn) {
                         intentMain = new Intent(MainActivity.this,HistoriaView.class);
                         MainActivity.this.startActivity(intentMain);
                     }else {
@@ -119,15 +119,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return true;
 
     }
-public void unregister(Sensor askelMittari) {
-    sensoriManageri.unregisterListener(this,askelMittari);
-}
+    public void unregister(Sensor askelMittari) {
+        sensoriManageri.unregisterListener(this,askelMittari);
+    }
     /**
      * vie settings view
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            if(!timerOn && textViewTimer.getText().equals("00:00:00")) {
+            if(!timerOn) {
                 intentMain = new Intent(MainActivity.this,
                         AsetuksetView.class);
                 MainActivity.this.startActivity(intentMain);
