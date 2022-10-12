@@ -72,7 +72,13 @@ public class Timerlogiikka extends MainActivity{
     public String formatTime(int sekunnit, int minuutit, int tunnit) {
         return String.format("%02d",tunnit) + ":" + String.format("%02d",minuutit) + ":" + String.format("%02d",sekunnit);
     }
-    public TextView palautaNolla(TextView textView, Timer timer) {
+
+    /**
+     * Antaa aikaruudun jossa aika on 00:00:00
+     * @param textView annettu tekstikenttä johon halutaan timer
+     * @return palauttaa tekstikentän jossa juokseva kello
+     */
+    public TextView palautaNolla(TextView textView) {
 
         return textView;
     }

@@ -30,8 +30,6 @@ public class HistoriaView extends AppCompatActivity {
     private TabLayout tabLayout;
     private ListView lv;
     private boolean timerOn;
-    public static final String EXTRA = "com.example.myapplication.MESSAGE";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

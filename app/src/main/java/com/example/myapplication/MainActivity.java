@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean sensoriOn;
     private boolean timerOn;
     private boolean paused = true;
-    private boolean created;
     private Timer timer;
     private Timerlogiikka timerlogiikka;
     private DatabaseHelper dbHelper;
@@ -114,9 +113,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         });
-        Log.e("TEST","Created");
-        Log.e("TEST", String.valueOf(paused));
-        Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
     }
 
 
@@ -197,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             timerOn = false;
             sensoriOn = false;
             paused = true;
-            Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
         }
         // Jos painetaan Reset
         else if (view.getId() == R.id.buttonReset) {
@@ -207,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 timerlogiikka.lopetaTimer();
             }
             timerlogiikka = new Timerlogiikka();
-            timerlogiikka.palautaNolla(textViewTimer,timer);
+            timerlogiikka.palautaNolla(textViewTimer);
             textViewTimer.setText(timerlogiikka.pyoristaLuvut());
             textViewAskeleet.setText(String.valueOf(askeleita));
             textViewKm.setText(String.format("%.2f", matka));
@@ -232,17 +227,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 askeleita++;
                 editor.putString("Askeleet", String.valueOf(askeleita));
                 editor.commit();
-                Log.e("TEST",prefGet.getString("Askeleet","0"));
             }
             textViewAskeleet.setText(String.valueOf(askeleita));
             if(askeleita > 0) {
                 String sukupuoli = prefGet.getString("Sukupuoli","");
                 if(sukupuoli.equals("Mies")) {
                     matka = (float)(askeleita*78)/(float)100000;
-                    Log.d("TEST","Mies ladattu");
                 }else if (sukupuoli.equals("Nainen")) {
                     matka = (float)(askeleita*70)/(float)100000;
-                    Log.d("TEST","Nainen ladattu");
                 }else {
                     matka = (float)(askeleita*78)/(float)100000;
                 }
@@ -257,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     public void onPause() {
         super.onPause();
-        Log.e("TEST","PAUSED");
         SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
         editor.putString("Aika", String.valueOf(timerlogiikka.nykyinenAika()));
         editor.putBoolean("Timer", timerOn);
@@ -266,15 +257,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     public void onResume() {
         super.onResume();
-        Log.e("TEST", "RESUMED");
         SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
         paused = prefGet.getBoolean("Paused",true);
-        Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
         textViewTimer.setText(timerlogiikka.pyoristaLuvut());
         textViewAskeleet.setText(askeleita.toString());
         sensoriManageri.registerListener(this, askelMittari, SensorManager.SENSOR_DELAY_FASTEST);
         if(!timerOn && !paused) {
-            Log.e("TEST","Alotettiin");
             askeleita = Integer.valueOf(prefGet.getString("Askeleet","0"));
             timerlogiikka.aloitaTimer(textViewTimer,timer);
             timerOn = true;
