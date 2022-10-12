@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean sensoriOn;
     private boolean timerOn;
     private boolean paused = true;
+    private boolean created;
     private Timer timer;
     private Timerlogiikka timerlogiikka;
     private DatabaseHelper dbHelper;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
              */
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
-                    if(!timerOn) {
+                    if(!timerOn && timerlogiikka.nykyinenAika() == 0.0) {
                         intentMain = new Intent(MainActivity.this,HistoriaView.class);
                         MainActivity.this.startActivity(intentMain);
                     }else {
@@ -103,11 +104,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if(tab.getPosition() == 1) {
+                    if(!timerOn && timerlogiikka.nykyinenAika() == 0.0) {
+                        intentMain = new Intent(MainActivity.this,HistoriaView.class);
+                        MainActivity.this.startActivity(intentMain);
+                    }else {
+                        Toast.makeText(MainActivity.this, "Tallenna tai resettaa askelmittaus!", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
         Log.e("TEST","Created");
         Log.e("TEST", String.valueOf(paused));
+        Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
     }
 
 
@@ -127,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            if(!timerOn) {
+            if(!timerOn && timerlogiikka.nykyinenAika() == 0.0) {
                 intentMain = new Intent(MainActivity.this,
                         AsetuksetView.class);
                 MainActivity.this.startActivity(intentMain);
@@ -188,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             timerOn = false;
             sensoriOn = false;
             paused = true;
+            Log.e("TEST", String.valueOf(timerlogiikka.nykyinenAika()));
         }
         // Jos painetaan Reset
         else if (view.getId() == R.id.buttonReset) {
@@ -197,15 +207,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 timerlogiikka.lopetaTimer();
             }
             timerlogiikka = new Timerlogiikka();
+            timerlogiikka.palautaNolla(textViewTimer,timer);
             textViewTimer.setText(timerlogiikka.pyoristaLuvut());
-            timerlogiikka.aloitaTimer(textViewTimer,timer);
-            timerlogiikka.lopetaTimer();
             textViewAskeleet.setText(String.valueOf(askeleita));
             textViewKm.setText(String.format("%.2f", matka));
             sensoriManageri.unregisterListener(this, askelMittari);
             timerOn = false;
             sensoriOn = false;
             paused = true;
+
+
         }
     }
 
