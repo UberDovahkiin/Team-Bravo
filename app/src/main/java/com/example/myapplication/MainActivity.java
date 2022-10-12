@@ -131,7 +131,7 @@ public void unregister(Sensor askelMittari) {
                         AsetuksetView.class);
                 MainActivity.this.startActivity(intentMain);
             }else {
-                Toast.makeText(this, "Tallenna tai resettaa askelmittaus", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tallenna tai resettaa askelmittaus!", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -165,8 +165,9 @@ public void unregister(Sensor askelMittari) {
                 timerOn = false;
                 sensoriOn = false;
                 paused = true;
-            }else if (textViewAskeleet.getText().toString().equals("0") && timerOn){
-                Toast.makeText(this, "0 askelta ei voi tallentaa", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Suoritus tallennettu!",Toast.LENGTH_SHORT).show();
+            }else if (textViewAskeleet.getText().toString().equals("0") && !textViewTimer.getText().toString().equals("0.0")){
+                Toast.makeText(this, "0 askelta ei voi tallentaa!", Toast.LENGTH_SHORT).show();
             }
             // Jos painetaan Käynnistä
         }else if(view.getId() == R.id.buttonStart) {
@@ -174,9 +175,9 @@ public void unregister(Sensor askelMittari) {
             if(!timerOn) {
                 timerlogiikka.aloitaTimer(textViewTimer,timer);
                 textViewTimer.setText(timerlogiikka.pyoristaLuvut());
+                timerOn = true;
+                paused = false;
             }
-            timerOn = true;
-            paused = false;
             // Jos painetaan Stop
         }else if(view.getId() == R.id.buttonStop) {
             if (timerOn) {
@@ -247,6 +248,7 @@ public void unregister(Sensor askelMittari) {
         Log.e("TEST","PAUSED");
         SharedPreferences.Editor editor = getSharedPreferences("Arvot",Activity.MODE_PRIVATE).edit();
         editor.putString("Aika", String.valueOf(timerlogiikka.nykyinenAika()));
+        editor.putBoolean("Timer", timerOn);
         editor.putBoolean("Paused", paused);
         editor.commit();
     }

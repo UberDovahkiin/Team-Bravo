@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,12 +29,15 @@ public class HistoriaView extends AppCompatActivity {
     private Intent intentMain;
     private TabLayout tabLayout;
     private ListView lv;
+    private boolean timerOn;
     public static final String EXTRA = "com.example.myapplication.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historia_view);
+        SharedPreferences prefGet = getSharedPreferences("Arvot" , Activity.MODE_PRIVATE);
+        timerOn = prefGet.getBoolean("Timer",true);
         tabLayout = findViewById(R.id.tabit);
         TabLayout.Tab tab = tabLayout.getTabAt(1);
         tab.select();
@@ -90,11 +96,15 @@ public class HistoriaView extends AppCompatActivity {
      * Kuuntelee jos settings nappulaa painetaan ja vie AsetuksetView.
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
+        if (item.getItemId() == R.id.action_settings) {
+            if(!timerOn) {
                 intentMain = new Intent(HistoriaView.this,
                         AsetuksetView.class);
                 HistoriaView.this.startActivity(intentMain);
+            }else {
+                Toast.makeText(this, "Tallenna tai resettaa askelmittaus", Toast.LENGTH_SHORT).show();
+            }
+
         }
         return false;
     }
