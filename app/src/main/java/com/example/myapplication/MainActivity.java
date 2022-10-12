@@ -87,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
              * Toiminta joka tapahtuu tabia painaessa
              */
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    intentMain = new Intent(MainActivity.this, MainActivity.class);
-                }else if (tab.getPosition() == 1) {
-                    intentMain = new Intent(MainActivity.this,HistoriaView.class);
-                    unregister(askelMittari);
-                    MainActivity.this.startActivity(intentMain);
+                if (tab.getPosition() == 1) {
+                    if(!timerOn) {
+                        intentMain = new Intent(MainActivity.this,HistoriaView.class);
+                        MainActivity.this.startActivity(intentMain);
+                    }else {
+                        Toast.makeText(MainActivity.this, "Tallenna tai resettaa askelmittaus!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             @Override
