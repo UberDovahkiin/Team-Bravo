@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return true;
 
     }
-    public void unregister(Sensor askelMittari) {
-        sensoriManageri.unregisterListener(this,askelMittari);
-    }
     /**
      * vie settings view
      */

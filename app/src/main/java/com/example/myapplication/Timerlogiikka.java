@@ -27,7 +27,7 @@ public class Timerlogiikka extends MainActivity{
     }
 
     /**
-     *
+     * Käynnistää timerin
      * @param textView annettu textview jossa aika juoksee.
      * @param timer annettu timer instance.
      * @return palauttaa annetun kentän johon timer lisää numerot.
@@ -60,7 +60,7 @@ public class Timerlogiikka extends MainActivity{
     }
 
     /**
-     * Muuntaa ajan oikein
+     * Pyöristää ajan oikein sekä luo siitä tunnit, minuutit ja sekunnit
      */
     public String pyoristaLuvut() {
         int rounded = (int) Math.round(time);
@@ -69,6 +69,11 @@ public class Timerlogiikka extends MainActivity{
         int sekunnit = ((rounded % 86400) % 3600) % 60;
         return formatTime(sekunnit,minuutit,tunnit);
     }
+
+    /**
+     * Formatoi ajan oikeaan muotoon
+     * @return palauttaa arvot kahden desimaalin tarkkuudella
+     */
     public String formatTime(int sekunnit, int minuutit, int tunnit) {
         return String.format("%02d",tunnit) + ":" + String.format("%02d",minuutit) + ":" + String.format("%02d",sekunnit);
     }
@@ -83,8 +88,7 @@ public class Timerlogiikka extends MainActivity{
         return textView;
     }
     /**
-     *
-     * @return palauttaa nykyisen ajan.
+     * palauttaa nykyisen ajan.
      */
     public double nykyinenAika() {
 
